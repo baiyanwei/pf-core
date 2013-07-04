@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: pf-core
+Bundle-SymbolicName: com.secpro.platform.core
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.secpro.platform.core.Activator
+Bundle-Vendor: secpro
+Require-Bundle: org.eclipse.core.runtime,
+ com.secpro.platform.log;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.secpro.platform.core.exception,
+ com.secpro.platform.core.metrics,
+ com.secpro.platform.core.services
