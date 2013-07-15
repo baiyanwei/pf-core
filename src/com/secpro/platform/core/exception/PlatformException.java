@@ -9,4 +9,7 @@ public class PlatformException extends Exception {
 	public PlatformException(String cause,Throwable able){
 		
 	}
+	public PlatformException(String exceptionMassage){
+		
+	}
 }

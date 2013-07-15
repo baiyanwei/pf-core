@@ -9,6 +9,9 @@ Require-Bundle: org.eclipse.core.runtime,
  com.secpro.platform.log;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.secpro.platform.core.exception,
+Export-Package: com.secpro.platform.core.configuration,
+ com.secpro.platform.core.exception,
+ com.secpro.platform.core.message,
  com.secpro.platform.core.metrics,
- com.secpro.platform.core.services
+ com.secpro.platform.core.services,
+ com.secpro.platform.core.utils
