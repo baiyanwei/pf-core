@@ -1,5 +1,6 @@
 package com.secpro.platform.core.metrics;
 
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -14,17 +15,20 @@ import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanException;
 import javax.management.MBeanInfo;
 import javax.management.MBeanOperationInfo;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
+import com.secpro.platform.core.services.IService;
+import com.secpro.platform.core.utils.Assert;
 import com.secpro.platform.log.utils.PlatformLogger;
 
 /**
- * @author Martin Bai.
- * this calss supplies common methods, delegates all methods of the DynamicBean
- * Jun 1, 2012
+ * @author Martin Bai. this calss supplies common methods, delegates all methods
+ *         of the DynamicBean Jun 1, 2012
  */
 public abstract class AbstractMetricMBean implements DynamicMBean {
-	private static PlatformLogger logger = PlatformLogger.getLogger(AbstractMetricMBean.class);
+	private static PlatformLogger theLogger = PlatformLogger.getLogger(AbstractMetricMBean.class);
 
 	protected MBeanInfo _mBeanInfo;
 	protected HashMap<String, Field> _metricFields = null;
@@ -34,6 +38,48 @@ public abstract class AbstractMetricMBean implements DynamicMBean {
 		// collect metrics
 		collectMetricFields();
 		collectMetricMethods();
+	}
+
+	/**
+	 * register service into MBean Server
+	 * 
+	 * @param jmxObjectName
+	 * @param service
+	 */
+	public void registerMBean(String jmxObjectName, IService service) {
+		if (Assert.isEmptyString(jmxObjectName) == true) {
+			return;
+		}
+		if (Assert.isNull(service) == true) {
+			return;
+		}
+		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+		try {
+			ObjectName objectName = new ObjectName(jmxObjectName);
+			mBeanServer.registerMBean(service, objectName);
+		} catch (Exception e) {
+			theLogger.exception("JMX error when registering the MonitoringService to JMX", e);
+		}
+	}
+
+	/**
+	 * unregister server from MBean Server
+	 * 
+	 * @param jmxObjectName
+	 * @param service
+	 */
+	public void unRegisterMBean(String jmxObjectName) {
+		if (Assert.isEmptyString(jmxObjectName) == true) {
+			return;
+		}
+		
+		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+		try {
+			ObjectName objectName = new ObjectName(jmxObjectName);
+			mBeanServer.unregisterMBean(objectName);
+		} catch (Exception e) {
+			theLogger.exception("JMX error when unregistering the MonitoringService", e);
+		}
 	}
 
 	@Override
@@ -53,7 +99,7 @@ public abstract class AbstractMetricMBean implements DynamicMBean {
 			return field.get(this);
 
 		} catch (Exception e) {
-			logger.exception(e);
+			theLogger.exception(e);
 		}
 		return null;
 	}
@@ -110,7 +156,7 @@ public abstract class AbstractMetricMBean implements DynamicMBean {
 		try {
 			return _metricMethods.get(actionName).invoke(this, params);
 		} catch (Exception e) {
-			logger.exception(e);
+			theLogger.exception(e);
 		}
 		return null;
 	}
