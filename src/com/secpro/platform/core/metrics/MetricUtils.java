@@ -132,7 +132,7 @@ public class MetricUtils {
 	 */
 	public static void registerMBean(AbstractMetricMBean metricMBean) throws Exception {
 		if (metricMBean == null) {
-			throw new Exception("invaild Metric MBean register prarameter.");
+			throw new Exception("invalid Metric MBean register prarameter.");
 		}
 		try {
 			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
