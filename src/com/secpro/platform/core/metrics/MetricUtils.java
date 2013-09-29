@@ -17,11 +17,13 @@ import javax.management.ObjectName;
 
 /**
  * @author Martin Bai.
- * Metric Utils supplies common methods, delegate all methods of the DynamicBean
- * Jun 1, 2012
+ * 
+ * 
+ *         Metric Utils supplies common methods, delegate all methods of the
+ *         DynamicBean Jun 1, 2012
  */
 public class MetricUtils {
-	final public static String JMX_TITLE = "application.platform:type=";
+	final public static String JMX_TITLE = "secpro.platform:type=";
 
 	public static HashMap<String, Field> collectMetricFields(Class<?> clazz) {
 		Field[] classFields = clazz.getDeclaredFields();
@@ -83,7 +85,8 @@ public class MetricUtils {
 		return null;
 	}
 
-	public static MBeanInfo getMBeanInfo(MBeanInfo mBeanInfo, Object instance, String constructName, String mBeanName, HashMap<String, Field> metricFields, HashMap<String, Method> metricMethods) {
+	public static MBeanInfo getMBeanInfo(MBeanInfo mBeanInfo, Object instance, String constructName, String mBeanName, HashMap<String, Field> metricFields,
+			HashMap<String, Method> metricMethods) {
 		if (mBeanInfo == null) {
 			Class<?> cls = instance.getClass();
 
@@ -136,12 +139,31 @@ public class MetricUtils {
 		}
 		try {
 			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-			ObjectName mbeanName = new ObjectName(JMX_TITLE+metricMBean.getClass().getName()+",name="+metricMBean.hashCode());
+			ObjectName mbeanName = new ObjectName(JMX_TITLE + metricMBean.getClass().getName() + ",name=" + metricMBean.hashCode());
 			mbs.registerMBean(metricMBean, mbeanName);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			throw e;
 		}
 
+	}
+
+	/**
+	 * unregister server from MBean Server
+	 * 
+	 * @param jmxObjectName
+	 * @param service
+	 */
+	public static void unRegisterMBean(AbstractMetricMBean metricMBean) throws Exception {
+		if (metricMBean == null) {
+			throw new Exception("invalid Metric MBean register prarameter.");
+		}
+
+		try {
+			MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+			ObjectName objectName = new ObjectName(JMX_TITLE + metricMBean.getClass().getName() + ",name=" + metricMBean.hashCode());
+			mBeanServer.unregisterMBean(objectName);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }

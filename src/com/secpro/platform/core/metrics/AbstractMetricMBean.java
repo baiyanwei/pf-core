@@ -24,8 +24,10 @@ import com.secpro.platform.core.utils.Assert;
 import com.secpro.platform.log.utils.PlatformLogger;
 
 /**
- * @author Martin Bai. this calss supplies common methods, delegates all methods
- *         of the DynamicBean Jun 1, 2012
+ * @author baiyanwei
+ * 
+ *         this calss supplies common methods, delegates all methods of the
+ *         DynamicBean Jun 1, 2012
  */
 public abstract class AbstractMetricMBean implements DynamicMBean {
 	private static PlatformLogger theLogger = PlatformLogger.getLogger(AbstractMetricMBean.class);
@@ -72,7 +74,7 @@ public abstract class AbstractMetricMBean implements DynamicMBean {
 		if (Assert.isEmptyString(jmxObjectName) == true) {
 			return;
 		}
-		
+
 		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 		try {
 			ObjectName objectName = new ObjectName(jmxObjectName);
