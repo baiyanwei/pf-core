@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -24,9 +25,7 @@ import com.secpro.platform.core.exception.PlatformException;
 import com.secpro.platform.log.utils.PlatformLogger;
 
 /**
- * @author baiyanwei
- * Jul 13, 2013
- * This is the platform general utility class.
+ * @author baiyanwei Jul 13, 2013 This is the platform general utility class.
  */
 public class Utils {
 
@@ -256,5 +255,16 @@ public class Utils {
 		int nameEndIndex = className.length();
 		String shortName = className.substring(lastDotIndex + 1, nameEndIndex);
 		return shortName;
+	}
+
+	/**
+	 * get 32 bit UUID String
+	 * 
+	 * @return
+	 */
+	public static String getUUID32() {
+		String sn = UUID.randomUUID().toString();
+		// UUID(32);
+		return sn.substring(0, 8) + sn.substring(9, 13) + sn.substring(14, 18) + sn.substring(19, 23) + sn.substring(24);
 	}
 }

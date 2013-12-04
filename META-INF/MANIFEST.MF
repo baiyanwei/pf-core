@@ -13,5 +13,6 @@ Export-Package: com.secpro.platform.core.configuration,
  com.secpro.platform.core.exception,
  com.secpro.platform.core.message,
  com.secpro.platform.core.metrics,
+ com.secpro.platform.core.node,
  com.secpro.platform.core.services,
  com.secpro.platform.core.utils
